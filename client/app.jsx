@@ -5,6 +5,11 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const request = require('superagent');
 
+const useUrl =  'https://whispering-river-47833.herokuapp.com';
+//const useUrl =  `http://${location.host}`;
+
+
+
 class PlaceItem extends React.Component {
   render() {
     return (
@@ -22,6 +27,7 @@ class PlaceItemList extends React.Component {
   constructor(props){
     super(props);
     this.state ={ places: []};
+
     //console.log(location.host);
     //console.log(`http://${location.host}/api/history`);
   }
@@ -33,9 +39,10 @@ class PlaceItemList extends React.Component {
   
   //自定義 function
   update(){
+    
     let self = this;
-    //let url = `http://${location.host}/api/history`;
-    let url = 'https://whispering-river-47833.herokuapp.com/api/history' ; //要替換成自己的網址跟port
+    let url = `${useUrl}/api/history`;
+    //let url = 'https://whispering-river-47833.herokuapp.com/api/history' ; //要替換成自己的網址跟port
 
     request
       .get(url)
@@ -45,6 +52,8 @@ class PlaceItemList extends React.Component {
         self.setState({places: result});
       }
     )
+
+
   }
 
 
@@ -64,6 +73,32 @@ class PlaceItemList extends React.Component {
 }
 
 class App extends React.Component {
+constructor(props){
+    super(props);
+    this.state ={ searchPlace: ''};
+    this.handleChange = this.handleChange.bind(this);
+}
+  handleChange(event){
+    this.setState({searchPlace: event.target.value});
+
+  }
+
+  send(event){
+    let self = this;
+    let url = `${useUrl}/api/search-place`; //要替換成自己的網址跟port
+
+    request
+      .get(url)
+      .query({place: this.state.searchPlace})
+      .end( function(error,response){
+        let result = JSON.parse(response.text);
+        console.log(result);
+      }
+    )
+
+
+  }
+  
   render() {
     return (
       <div className="ui middle aligned center aligned grid">
@@ -75,8 +110,8 @@ class App extends React.Component {
             </div>
           </h2>
           <div className="ui action input">
-            <input id="urlText" type="text" placeholder="Search..." />
-            <button id="searchButton" className="ui blue button">Search</button>
+            <input id="urlText" type="text" placeholder="Search..." onChange={this.handleChange.bind(this)} />
+            <button id="searchButton" className="ui blue button" onClick={this.send.bind(this)}>Search</button>
           </div>
           <div className="ui horizontal divider">
             place-spot
