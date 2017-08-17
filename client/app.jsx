@@ -5,8 +5,8 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const request = require('superagent');
 
-const useUrl =  'https://whispering-river-47833.herokuapp.com';
-//const useUrl =  `http://${location.host}`;
+//const useUrl =  'https://whispering-river-47833.herokuapp.com';
+const useUrl =  `http://${location.host}`;
 
 
 
@@ -17,6 +17,7 @@ class PlaceItem extends React.Component {
         <i className="large youtube middle aligned icon"></i>
         <div className="content">
           <a className="header">{this.props.place}</a>
+           <div className="description">{this.props.address} </div>
         </div>
       </div>
     )
@@ -63,7 +64,7 @@ class PlaceItemList extends React.Component {
        <div id="resultList" className="ui relaxed divided list">
             {
               this.state.places.map((value,index)=>{
-                return <PlaceItem key={index} place={value.place} />;
+                return <PlaceItem key={index} place={value.place} address={value.result.formatted_address} />;
               })
             }
       </div>
@@ -93,6 +94,7 @@ constructor(props){
       .end( function(error,response){
         let result = JSON.parse(response.text);
         console.log(result);
+        self.placeItemlist.update();
       }
     )
 
@@ -116,7 +118,7 @@ constructor(props){
           <div className="ui horizontal divider">
             place-spot
           </div>
-         <PlaceItemList />
+         <PlaceItemList ref={(placeItemlist)=>{ this.placeItemlist = placeItemlist }} />
         </div>
       </div>
     )
