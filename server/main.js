@@ -68,12 +68,13 @@ app.get('/api/search-place', function (req, res) {
       let result = getAddressAndLocation(JSON.parse(body))
       res.json(result);
 
+      console.log('gina:'+place);
       let history = app.get('history')
       history.push({ place: req.query.place, result })
       app.set('history', history)
     });
 });
-// http://localhost:3000/search-place?place=ntu
+// http://localhost:3000/api/search-place?place=ntu
 
 app.get('/api/search-nearby', function (req, res) {
   let lat = req.query.lat

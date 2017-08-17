@@ -1,5 +1,9 @@
+//request 比較肥 , superagent 是輕量型的
+
+
 const React = require('react');
 const ReactDOM = require('react-dom');
+const request = require('superagent');
 
 class PlaceItem extends React.Component {
   render() {
@@ -15,13 +19,43 @@ class PlaceItem extends React.Component {
 }
 
 class PlaceItemList extends React.Component {
+  constructor(props){
+    super(props);
+    this.state ={ places: []};
+    //console.log(location.host);
+    //console.log(`http://${location.host}/api/history`);
+  }
+  
+  // 當 mount 入app 時去執行
+  componentDidMount(){
+     this.update();
+  }
+  
+  //自定義 function
+  update(){
+    let self = this;
+    let url = `http://${location.host}/api/history`;
+   // let url = 'http://localhost:3000/api/history' ; //要替換成自己的網址跟port
+    request
+      .get(url)
+      .end( function(error,response){
+        let result = JSON.parse(response.text);
+        console.log(result);
+        self.setState({places: result});
+      }
+    )
+  }
+
+
   render(){
+     //react 規定 list of component 一定要有key
     return(
        <div id="resultList" className="ui relaxed divided list">
-            <PlaceItem place="Taipei 101" />
-            <PlaceItem place="NTU" />
-            <PlaceItem place="師大夜市" />
-            <PlaceItem place="公館夜市" />
+            {
+              this.state.places.map((value,index)=>{
+                return <PlaceItem key={index} place={value.place} />;
+              })
+            }
       </div>
 
     ); 
