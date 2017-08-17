@@ -1,13 +1,10 @@
 //request 比較肥 , superagent 是輕量型的
-
-
 const React = require('react');
 const ReactDOM = require('react-dom');
 const request = require('superagent');
 
-//const useUrl =  'https://whispering-river-47833.herokuapp.com';
-const useUrl =  `http://${location.host}`;
-
+const useUrl =  'https://whispering-river-47833.herokuapp.com';
+//const useUrl =  `http://${location.host}`;
 
 
 class PlaceItem extends React.Component {
