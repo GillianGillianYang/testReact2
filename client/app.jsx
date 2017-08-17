@@ -34,8 +34,9 @@ class PlaceItemList extends React.Component {
   //自定義 function
   update(){
     let self = this;
-    let url = `http://${location.host}/api/history`;
-   // let url = 'http://localhost:3000/api/history' ; //要替換成自己的網址跟port
+    //let url = `http://${location.host}/api/history`;
+    let url = 'https://whispering-river-47833.herokuapp.com/api/history' ; //要替換成自己的網址跟port
+
     request
       .get(url)
       .end( function(error,response){
