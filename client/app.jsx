@@ -14,6 +14,20 @@ class PlaceItem extends React.Component {
   }
 }
 
+class PlaceItemList extends React.Component {
+  render(){
+    return(
+       <div id="resultList" className="ui relaxed divided list">
+            <PlaceItem place="Taipei 101" />
+            <PlaceItem place="NTU" />
+            <PlaceItem place="師大夜市" />
+            <PlaceItem place="公館夜市" />
+      </div>
+
+    ); 
+  }
+}
+
 class App extends React.Component {
   render() {
     return (
@@ -32,11 +46,7 @@ class App extends React.Component {
           <div className="ui horizontal divider">
             place-spot
           </div>
-          <div id="resultList" className="ui relaxed divided list">
-            <PlaceItem place="Taipei 101" />
-            <PlaceItem place="NTU" />
-            <PlaceItem place="師大夜市" />
-          </div>
+         <PlaceItemList />
         </div>
       </div>
     )
